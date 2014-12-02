@@ -1,0 +1,1 @@
+copy /y target\taskq-*-project.zip s:\dev\backup
