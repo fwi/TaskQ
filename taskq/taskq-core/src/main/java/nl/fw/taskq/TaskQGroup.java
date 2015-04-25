@@ -64,7 +64,6 @@ public class TaskQGroup<TASK_TYPE, TASK_TYPE_ID> implements ITaskDoneListener<TA
 
 	public <QTT extends TASK_TYPE> boolean enqueue(String name, QTT task, long timeout, TimeUnit tunit) {
 		
-		boolean queued = false;
 		boolean canQ = !isMaxSizeReached();
 		if (!canQ) {
 			waitingToQ.incrementAndGet();
@@ -76,11 +75,12 @@ public class TaskQGroup<TASK_TYPE, TASK_TYPE_ID> implements ITaskDoneListener<TA
 				waitingToQ.decrementAndGet();
 			}
 		}
+		boolean queued = false;
 		if (canQ) {
 			queued = getTaskQ(name).enqueue(task);
-		}
-		if (queued) {
-			totalQueued.incrementAndGet();
+			if (queued) {
+				totalQueued.incrementAndGet();
+			}
 		}
 		return queued;
 	}
