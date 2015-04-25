@@ -35,10 +35,11 @@ public class TaskQueuerQos<TASK_TYPE, TASK_QOS_TYPE> implements ITaskQueuerQos<T
 			return tasksByKey.add(qosKey, task);
 		}
 		boolean havePermit = false;
+		boolean added = false;
 		try {
 			updateLock.acquire();
 			havePermit = true;
-			tasksByKey.add(qosKey, task);
+			added = tasksByKey.add(qosKey, task);
 		} catch (Exception e) {
 			log.error("Could not add task [" + task + "] to queue.", e);
 		} finally {
@@ -46,7 +47,7 @@ public class TaskQueuerQos<TASK_TYPE, TASK_QOS_TYPE> implements ITaskQueuerQos<T
 				updateLock.release();
 			}
 		}
-		return true;
+		return added;
 	}
 
 	@Override
