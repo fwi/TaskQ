@@ -19,6 +19,7 @@
 		<module>taskq-file</module>
 		<module>taskq-db</module>
 		 -->
+		<module>taskq-db-hsql</module>
 	</modules>
 
 	<build>
